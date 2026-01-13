@@ -10,8 +10,8 @@ import Foundation
 enum Constants {
     // MARK: - Supabase Configuration
     enum Supabase {
-        static let url = "YOUR_SUPABASE_URL"
-        static let anonKey = "YOUR_SUPABASE_ANON_KEY"
+        static let url = "https://evfuwssmwjmkvsunzsjn.supabase.co"
+        static let anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV2ZnV3c3Ntd2pta3ZzdW56c2puIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgzMDQ3NjMsImV4cCI6MjA4Mzg4MDc2M30.ckTr2cEUEODLEANaQmcrjZuRj8MvCRVDsgIhXfXCF10"
     }
 
     // MARK: - App Configuration
