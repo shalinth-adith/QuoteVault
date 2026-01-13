@@ -13,7 +13,7 @@ class CollectionService {
 
     // MARK: - Create Collection
     func createCollection(userId: UUID, name: String) async throws -> QuoteCollection {
-        let collection: [String: Any] = [
+        let collection: [String: String] = [
             "user_id": userId.uuidString,
             "name": name
         ]
@@ -75,7 +75,7 @@ class CollectionService {
 
     // MARK: - Add Quote to Collection
     func addQuoteToCollection(collectionId: UUID, quoteId: UUID) async throws {
-        let collectionQuote: [String: Any] = [
+        let collectionQuote: [String: String] = [
             "collection_id": collectionId.uuidString,
             "quote_id": quoteId.uuidString
         ]
@@ -136,7 +136,7 @@ class CollectionService {
             .select("id")
             .eq("collection_id", value: collectionId.uuidString)
             .eq("quote_id", value: quoteId.uuidString)
-            .maybeSingle()
+            .limit(1)
             .execute()
 
         return !response.data.isEmpty

@@ -18,16 +18,18 @@ class AuthService {
             password: password
         )
 
-        guard let userId = authResponse.user?.id else {
-            throw AuthError.signUpFailed
-        }
+        let userId = authResponse.user.id
 
-        // Create user profile
-        if let name = name {
+        // Wait a moment for the trigger to create the profile
+        try await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+
+        // Update profile with name if provided
+        if let name = name, !name.isEmpty {
             try await createUserProfile(userId: userId, email: email, name: name)
         }
 
-        return User(id: userId, email: email, name: name)
+        // Fetch the created profile
+        return try await fetchUserProfile(userId: userId)
     }
 
     // MARK: - Sign In
@@ -37,9 +39,7 @@ class AuthService {
             password: password
         )
 
-        guard let userId = session.user.id else {
-            throw AuthError.signInFailed
-        }
+        let userId = session.user.id
 
         // Fetch user profile
         let profile = try await fetchUserProfile(userId: userId)
@@ -58,11 +58,11 @@ class AuthService {
 
     // MARK: - Get Current User
     func getCurrentUser() async throws -> User? {
-        guard let session = try? await client.auth.session,
-              let userId = session.user.id else {
+        guard let session = try? await client.auth.session else {
             return nil
         }
 
+        let userId = session.user.id
         return try await fetchUserProfile(userId: userId)
     }
 
@@ -73,17 +73,15 @@ class AuthService {
 
     // MARK: - Profile Management
     private func createUserProfile(userId: UUID, email: String, name: String) async throws {
-        let profile: [String: Any] = [
-            "id": userId.uuidString,
-            "email": email,
-            "name": name,
-            "settings": try JSONEncoder().encode(UserSettings())
-        ]
-
-        try await client
-            .from("user_profiles")
-            .insert(profile)
-            .execute()
+        // The database trigger automatically creates the profile
+        // We just need to update the name if provided
+        if !name.isEmpty {
+            try await client
+                .from("user_profiles")
+                .update(["name": name])
+                .eq("id", value: userId.uuidString)
+                .execute()
+        }
     }
 
     func fetchUserProfile(userId: UUID) async throws -> User {
@@ -101,7 +99,7 @@ class AuthService {
     }
 
     func updateUserProfile(userId: UUID, name: String?, avatarURL: String?) async throws {
-        var updates: [String: Any] = [:]
+        var updates: [String: String] = [:]
         if let name = name {
             updates["name"] = name
         }

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 @MainActor
 class AuthViewModel: ObservableObject {
@@ -67,7 +68,9 @@ class AuthViewModel: ObservableObject {
             currentUser = user
             isAuthenticated = true
         } catch {
-            errorMessage = "Invalid email or password. Please try again."
+            // Show actual error for debugging
+            errorMessage = error.localizedDescription
+            print("Sign in error: \(error)")
         }
 
         isLoading = false

@@ -124,26 +124,30 @@ class QuoteService {
         let todayString = dateFormatter.string(from: today)
 
         // Try to get today's daily quote
-        let response = try await client
-            .from("daily_quotes")
-            .select("quote_id")
-            .eq("date", value: todayString)
-            .maybeSingle()
-            .execute()
+        do {
+            let response = try await client
+                .from("daily_quotes")
+                .select("quote_id")
+                .eq("date", value: todayString)
+                .limit(1)
+                .execute()
 
-        if let data = response.data, !data.isEmpty {
-            // Daily quote exists, fetch it
-            let dailyQuoteData = try JSONDecoder().decode([String: String].self, from: data)
-            if let quoteIdString = dailyQuoteData["quote_id"],
+            let decoder = JSONDecoder()
+            let dailyQuotes = try decoder.decode([[String: String]].self, from: response.data)
+
+            if let firstQuote = dailyQuotes.first,
+               let quoteIdString = firstQuote["quote_id"],
                let quoteId = UUID(uuidString: quoteIdString) {
                 return try await fetchQuote(id: quoteId)
             }
+        } catch {
+            // No daily quote found, continue to create one
         }
 
         // No daily quote for today, select a random one and insert it
         let randomQuote = try await fetchRandomQuote()
 
-        let dailyQuote: [String: Any] = [
+        let dailyQuote: [String: String] = [
             "quote_id": randomQuote.id.uuidString,
             "date": todayString
         ]

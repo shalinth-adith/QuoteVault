@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 class ThemeManager: ObservableObject {
     @Published var currentTheme: UserSettings.AppTheme = .system {

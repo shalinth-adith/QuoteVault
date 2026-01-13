@@ -13,7 +13,7 @@ class FavoriteService {
 
     // MARK: - Add Favorite
     func addFavorite(userId: UUID, quoteId: UUID) async throws {
-        let favorite: [String: Any] = [
+        let favorite: [String: String] = [
             "user_id": userId.uuidString,
             "quote_id": quoteId.uuidString
         ]
@@ -41,7 +41,7 @@ class FavoriteService {
             .select("id")
             .eq("user_id", value: userId.uuidString)
             .eq("quote_id", value: quoteId.uuidString)
-            .maybeSingle()
+            .limit(1)
             .execute()
 
         return !response.data.isEmpty

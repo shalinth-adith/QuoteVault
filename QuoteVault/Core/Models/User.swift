@@ -29,6 +29,21 @@ struct User: Identifiable, Codable {
         self.avatarURL = avatarURL
         self.settings = settings
     }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        email = try container.decode(String.self, forKey: .email)
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        avatarURL = try container.decodeIfPresent(String.self, forKey: .avatarURL)
+
+        // Try to decode settings, use default if it fails
+        if let settingsData = try? container.decode(UserSettings.self, forKey: .settings) {
+            settings = settingsData
+        } else {
+            settings = UserSettings()
+        }
+    }
 }
 
 struct UserSettings: Codable {

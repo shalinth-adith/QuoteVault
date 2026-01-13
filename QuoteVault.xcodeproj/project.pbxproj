@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F043399D2F16803800127C2E /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = F043399C2F16803800127C2E /* Auth */; };
+		F043399F2F16803D00127C2E /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = F043399E2F16803D00127C2E /* Supabase */; };
+		F04339A12F16804100127C2E /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = F04339A02F16804100127C2E /* Realtime */; };
+		F04339A32F16804700127C2E /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = F04339A22F16804700127C2E /* PostgREST */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F00743502F165E88008A0CD2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +59,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F04339A32F16804700127C2E /* PostgREST in Frameworks */,
+				F04339A12F16804100127C2E /* Realtime in Frameworks */,
+				F043399F2F16803D00127C2E /* Supabase in Frameworks */,
+				F043399D2F16803800127C2E /* Auth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +89,7 @@
 				F00743442F165E87008A0CD2 /* QuoteVault */,
 				F00743522F165E88008A0CD2 /* QuoteVaultTests */,
 				F007435C2F165E88008A0CD2 /* QuoteVaultUITests */,
+				F043399B2F16803800127C2E /* Frameworks */,
 				F00743432F165E87008A0CD2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +102,13 @@
 				F00743592F165E88008A0CD2 /* QuoteVaultUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F043399B2F16803800127C2E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +131,10 @@
 			);
 			name = QuoteVault;
 			packageProductDependencies = (
+				F043399C2F16803800127C2E /* Auth */,
+				F043399E2F16803D00127C2E /* Supabase */,
+				F04339A02F16804100127C2E /* Realtime */,
+				F04339A22F16804700127C2E /* PostgREST */,
 			);
 			productName = QuoteVault;
 			productReference = F00743422F165E87008A0CD2 /* QuoteVault.app */;
@@ -586,6 +609,29 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F043399C2F16803800127C2E /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F04339922F1669BA00127C2E /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		F043399E2F16803D00127C2E /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F04339922F1669BA00127C2E /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+		F04339A02F16804100127C2E /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F04339922F1669BA00127C2E /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		F04339A22F16804700127C2E /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F04339922F1669BA00127C2E /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F007433A2F165E87008A0CD2 /* Project object */;
 }
