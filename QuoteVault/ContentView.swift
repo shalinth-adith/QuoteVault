@@ -2,23 +2,19 @@
 //  ContentView.swift
 //  QuoteVault
 //
-//  Created by shalinth adithyan on 13/01/26.
+//  MVVM Architecture - Main Content View
 //
 
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        MainTabView()
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(AuthViewModel())
+        .environmentObject(ThemeManager())
 }
