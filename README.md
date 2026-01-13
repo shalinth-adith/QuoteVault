@@ -202,12 +202,95 @@ This project was built leveraging AI coding assistants to accelerate development
 - Quotes are publicly readable
 - Automatic user profile creation on signup
 
+## Widget Setup (Optional)
+
+The iOS Widget requires creating a Widget Extension target in Xcode:
+
+1. In Xcode, go to **File > New > Target**
+2. Select **Widget Extension**
+3. Name it "QuoteVaultWidget"
+4. Click **Finish** (don't activate scheme when prompted)
+5. Navigate to `QuoteVault/Widget/QuoteWidget.swift` in the project
+6. Copy the entire file contents
+7. Replace the generated widget code in the new Widget Extension
+8. Build and run the widget target
+9. Long-press on your Home Screen and add the QuoteVault widget
+
+### Widget Features
+- **3 Sizes**: Small (compact), Medium (balanced), Large (full quote)
+- **Auto-Updates**: Refreshes daily at midnight
+- **Beautiful Gradients**: Colorful designs that match the app
+- **Category Badge**: Shows the quote category
+
+## Testing Checklist
+
+Before deploying, verify all features work:
+
+**Authentication**
+- [ ] Sign up with new email
+- [ ] Sign in with existing account
+- [ ] Password reset flow
+- [ ] Session persistence after app restart
+- [ ] Sign out successfully
+
+**Quote Discovery**
+- [ ] Home feed loads and scrolls infinitely
+- [ ] Daily quote displays and changes daily
+- [ ] Browse by each category (5 categories)
+- [ ] Search by keyword finds relevant quotes
+- [ ] Search by author returns correct results
+- [ ] Pull-to-refresh updates content
+
+**Favorites**
+- [ ] Add quote to favorites (heart icon)
+- [ ] Remove from favorites
+- [ ] Favorites sync across devices
+- [ ] Empty state shows when no favorites
+- [ ] Favorites persist after sign out/in
+
+**Collections**
+- [ ] Create new collection
+- [ ] Add quotes to collection from Home
+- [ ] Add quotes from Favorites
+- [ ] View all quotes in a collection
+- [ ] Remove quotes from collection
+- [ ] Delete entire collection
+- [ ] Empty state shows for empty collections
+
+**Sharing**
+- [ ] Share quote as text works
+- [ ] Generate image with Gradient style
+- [ ] Generate image with Minimal style
+- [ ] Generate image with Elegant style
+- [ ] Generate image with Bold style
+- [ ] Share sheet opens with generated image
+- [ ] Images are high quality (3x scale)
+
+**Settings & Personalization**
+- [ ] Change theme to Light
+- [ ] Change theme to Dark
+- [ ] Change theme to Ocean
+- [ ] Change theme to Sunset
+- [ ] Theme persists after app restart
+- [ ] Change font size (4 options)
+- [ ] Font size applies throughout app
+- [ ] Enable notifications
+- [ ] Set notification time
+- [ ] Receive daily notification at set time
+
+**Widget (if configured)**
+- [ ] Widget displays current daily quote
+- [ ] Widget updates daily
+- [ ] Tap widget opens app
+- [ ] All 3 sizes display correctly
+
 ## Known Limitations
 
 - Widget refresh limited by iOS background refresh policies
 - Offline mode queues actions but requires connection to sync
 - Avatar upload requires additional storage configuration
 - Search is case-insensitive but doesn't support fuzzy matching
+- Notifications require user permission on first enable
 
 ## Future Enhancements
 

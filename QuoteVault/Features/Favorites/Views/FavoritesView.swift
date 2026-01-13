@@ -87,12 +87,34 @@ struct FavoriteQuoteCard: View {
     let quote: Quote
     let onUnfavorite: () -> Void
     @EnvironmentObject var themeManager: ThemeManager
+    @State private var showAddToCollection = false
+    @State private var showShareSheet = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 CategoryBadge(category: quote.category)
                 Spacer()
+
+                // Share Button
+                Button(action: {
+                    showShareSheet = true
+                }) {
+                    Image(systemName: "square.and.arrow.up")
+                        .foregroundColor(themeManager.primaryColor)
+                }
+                .padding(.trailing, 8)
+
+                // Add to Collection Button
+                Button(action: {
+                    showAddToCollection = true
+                }) {
+                    Image(systemName: "folder.badge.plus")
+                        .foregroundColor(themeManager.primaryColor)
+                }
+                .padding(.trailing, 8)
+
+                // Unfavorite Button
                 Button(action: onUnfavorite) {
                     Image(systemName: "heart.fill")
                         .foregroundColor(.red)
@@ -114,6 +136,12 @@ struct FavoriteQuoteCard: View {
         .background(themeManager.secondaryBackgroundColor)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+        .sheet(isPresented: $showAddToCollection) {
+            AddToCollectionSheet(quote: quote)
+        }
+        .sheet(isPresented: $showShareSheet) {
+            ShareSheet(quote: quote)
+        }
     }
 }
 
