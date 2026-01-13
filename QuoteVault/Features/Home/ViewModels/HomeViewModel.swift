@@ -17,6 +17,7 @@ class HomeViewModel: ObservableObject {
     @Published var hasMoreQuotes = true
 
     private let quoteService = QuoteService()
+    private let favoriteService = FavoriteService()
     private var currentPage = 0
     private let pageSize = 20
 
@@ -36,8 +37,10 @@ class HomeViewModel: ObservableObject {
     func loadDailyQuote() async {
         do {
             dailyQuote = try await quoteService.fetchDailyQuote()
+            print("✅ Daily quote loaded successfully")
         } catch {
-            print("Failed to load daily quote: \(error)")
+            print("❌ Failed to load daily quote: \(error)")
+            print("❌ Daily quote error details: \(String(describing: error))")
         }
     }
 
@@ -58,8 +61,9 @@ class HomeViewModel: ObservableObject {
                 currentPage += 1
             }
         } catch {
-            errorMessage = "Failed to load quotes. Please try again."
-            print("Error loading quotes: \(error)")
+            errorMessage = "Failed to load quotes: \(error.localizedDescription)"
+            print("❌ Error loading quotes: \(error)")
+            print("❌ Error details: \(String(describing: error))")
         }
 
         isLoading = false
@@ -79,6 +83,25 @@ class HomeViewModel: ObservableObject {
         if let currentIndex = quotes.firstIndex(where: { $0.id == currentQuote.id }),
            currentIndex >= thresholdIndex {
             await loadQuotes()
+        }
+    }
+
+    // MARK: - Toggle Favorite
+    func toggleFavorite(_ quote: Quote, userId: UUID) async {
+        do {
+            if quote.isFavorited {
+                try await favoriteService.removeFavorite(userId: userId, quoteId: quote.id)
+            } else {
+                try await favoriteService.addFavorite(userId: userId, quoteId: quote.id)
+            }
+
+            // Update local state
+            if let index = quotes.firstIndex(where: { $0.id == quote.id }) {
+                quotes[index].isFavorited.toggle()
+            }
+        } catch {
+            errorMessage = "Failed to update favorite. Please try again."
+            print("Error toggling favorite: \(error)")
         }
     }
 }

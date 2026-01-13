@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var authViewModel: AuthViewModel
 
     var body: some View {
         NavigationStack {
@@ -35,13 +36,19 @@ struct HomeView: View {
                         // Quotes List
                         LazyVStack(spacing: 16) {
                             ForEach(viewModel.quotes) { quote in
-                                QuoteCardView(quote: quote)
-                                    .padding(.horizontal)
-                                    .onAppear {
+                                QuoteCardView(quote: quote) {
+                                    if let userId = authViewModel.currentUser?.id {
                                         Task {
-                                            await viewModel.loadMoreIfNeeded(currentQuote: quote)
+                                            await viewModel.toggleFavorite(quote, userId: userId)
                                         }
                                     }
+                                }
+                                .padding(.horizontal)
+                                .onAppear {
+                                    Task {
+                                        await viewModel.loadMoreIfNeeded(currentQuote: quote)
+                                    }
+                                }
                             }
 
                             // Loading indicator
@@ -131,6 +138,7 @@ struct DailyQuoteCardView: View {
 // MARK: - Quote Card
 struct QuoteCardView: View {
     let quote: Quote
+    var onFavoriteToggle: (() -> Void)? = nil
     @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
@@ -139,7 +147,7 @@ struct QuoteCardView: View {
                 CategoryBadge(category: quote.category)
                 Spacer()
                 Button(action: {
-                    // TODO: Toggle favorite
+                    onFavoriteToggle?()
                 }) {
                     Image(systemName: quote.isFavorited ? "heart.fill" : "heart")
                         .foregroundColor(quote.isFavorited ? .red : .gray)

@@ -31,4 +31,23 @@ struct Quote: Identifiable, Codable, Equatable {
         self.createdAt = createdAt
         self.isFavorited = isFavorited
     }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        text = try container.decode(String.self, forKey: .text)
+        author = try container.decode(String.self, forKey: .author)
+        category = try container.decode(QuoteCategory.self, forKey: .category)
+
+        // Try to decode createdAt, use current date if it fails
+        if let createdAtString = try? container.decode(String.self, forKey: .createdAt) {
+            let formatter = ISO8601DateFormatter()
+            createdAt = formatter.date(from: createdAtString) ?? Date()
+        } else {
+            createdAt = Date()
+        }
+
+        // isFavorited is not in the database, always defaults to false
+        isFavorited = false
+    }
 }

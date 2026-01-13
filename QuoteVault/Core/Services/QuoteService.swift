@@ -24,8 +24,6 @@ class QuoteService {
             .execute()
 
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
         let quotes = try decoder.decode([Quote].self, from: response.data)
         return quotes
     }
@@ -44,8 +42,6 @@ class QuoteService {
             .execute()
 
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
         let quotes = try decoder.decode([Quote].self, from: response.data)
         return quotes
     }
@@ -59,8 +55,6 @@ class QuoteService {
             .execute()
 
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
         let quotes = try decoder.decode([Quote].self, from: response.data)
         return quotes
     }
@@ -74,8 +68,6 @@ class QuoteService {
             .execute()
 
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
         let quotes = try decoder.decode([Quote].self, from: response.data)
         return quotes
     }
@@ -90,8 +82,6 @@ class QuoteService {
             .execute()
 
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
         let quote = try decoder.decode(Quote.self, from: response.data)
         return quote
     }
@@ -105,8 +95,6 @@ class QuoteService {
             .execute()
 
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
         let quotes = try decoder.decode([Quote].self, from: response.data)
 
         guard let quote = quotes.first else {
